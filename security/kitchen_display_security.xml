@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Kitchen Display Security Category -->
+        <record id="module_category_kitchen_display" model="ir.module.category">
+            <field name="name">Kitchen Display System</field>
+            <field name="description">Manage access to Kitchen Display System Pro</field>
+            <field name="sequence">20</field>
+        </record>
+        
+        <!-- Kitchen Display Security Groups -->
+        <record id="group_kitchen_display_user" model="res.groups">
+            <field name="name">Kitchen Staff</field>
+            <field name="category_id" ref="module_category_kitchen_display"/>
+            <field name="comment">Kitchen staff who can view orders and update their status. Can mark orders as preparing, ready, or served.</field>
+        </record>
+        
+        <record id="group_kitchen_display_manager" model="res.groups">
+            <field name="name">Kitchen Manager</field>
+            <field name="category_id" ref="module_category_kitchen_display"/>
+            <field name="implied_ids" eval="[(4, ref('group_kitchen_display_user'))]"/>
+            <field name="comment">Kitchen managers who can configure displays, manage priorities, and access analytics. Can create and modify orders.</field>
+        </record>
+        
+        <record id="group_kitchen_display_admin" model="res.groups">
+            <field name="name">System Administrator</field>
+            <field name="category_id" ref="module_category_kitchen_display"/>
+            <field name="implied_ids" eval="[(4, ref('group_kitchen_display_manager'))]"/>
+            <field name="comment">Full administrative access to Kitchen Display System including system configuration, security settings, and data management.</field>
+        </record>
+        
+        <!-- Kitchen Display Viewer (Read-only access for monitoring) -->
+        <record id="group_kitchen_display_viewer" model="res.groups">
+            <field name="name">Display Viewer</field>
+            <field name="category_id" ref="module_category_kitchen_display"/>
+            <field name="comment">Read-only access for monitoring displays without ability to modify orders. Perfect for customer-facing displays.</field>
+        </record>
+        
+        <!-- Record Rules -->
+        
+        <!-- Kitchen Display Rules -->
+        <record id="kitchen_display_rule_user" model="ir.rule">
+            <field name="name">Kitchen Display: User Access</field>
+            <field name="model_id" ref="model_kitchen_display"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('group_kitchen_display_user'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+        
+        <record id="kitchen_display_rule_manager" model="ir.rule">
+            <field name="name">Kitchen Display: Manager Access</field>
+            <field name="model_id" ref="model_kitchen_display"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('group_kitchen_display_manager'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+        
+        <record id="kitchen_display_rule_admin" model="ir.rule">
+            <field name="name">Kitchen Display: Admin Access</field>
+            <field name="model_id" ref="model_kitchen_display"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('group_kitchen_display_admin'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+        
+        <!-- Kitchen Order Rules -->
+        <record id="kitchen_order_rule_user" model="ir.rule">
+            <field name="name">Kitchen Order: User Access</field>
+            <field name="model_id" ref="model_kitchen_order"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('group_kitchen_display_user'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+        
+        <record id="kitchen_order_rule_manager" model="ir.rule">
+            <field name="name">Kitchen Order: Manager Access</field>
+            <field name="model_id" ref="model_kitchen_order"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('group_kitchen_display_manager'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+        
+        <!-- Kitchen Display Viewer Rules (Read-only) -->
+        <record id="kitchen_display_rule_viewer" model="ir.rule">
+            <field name="name">Kitchen Display: Viewer Access</field>
+            <field name="model_id" ref="model_kitchen_display"/>
+            <field name="domain_force">[('company_id', 'in', company_ids), ('is_active', '=', True)]</field>
+            <field name="groups" eval="[(4, ref('group_kitchen_display_viewer'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+        
+        <record id="kitchen_order_rule_viewer" model="ir.rule">
+            <field name="name">Kitchen Order: Viewer Access</field>
+            <field name="model_id" ref="model_kitchen_order"/>
+            <field name="domain_force">[('company_id', 'in', company_ids), ('state', 'in', ['new', 'preparing', 'ready'])]</field>
+            <field name="groups" eval="[(4, ref('group_kitchen_display_viewer'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+        
+        <!-- Kitchen Order Line Rules -->
+        <record id="kitchen_order_line_rule_user" model="ir.rule">
+            <field name="name">Kitchen Order Line: User Access</field>
+            <field name="model_id" ref="model_kitchen_order_line"/>
+            <field name="domain_force">[('order_id.company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('group_kitchen_display_user'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+        
+        <record id="kitchen_order_line_rule_manager" model="ir.rule">
+            <field name="name">Kitchen Order Line: Manager Access</field>
+            <field name="model_id" ref="model_kitchen_order_line"/>
+            <field name="domain_force">[('order_id.company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('group_kitchen_display_manager'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+        
+        <record id="kitchen_order_line_rule_viewer" model="ir.rule">
+            <field name="name">Kitchen Order Line: Viewer Access</field>
+            <field name="model_id" ref="model_kitchen_order_line"/>
+            <field name="domain_force">[('order_id.company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('group_kitchen_display_viewer'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+        
+        <!-- Server Actions for Kitchen Display -->
+        <record id="action_kitchen_order_emergency_reset" model="ir.actions.server">
+            <field name="name">Emergency Reset Orders</field>
+            <field name="model_id" ref="model_kitchen_order"/>
+            <field name="state">code</field>
+            <field name="code">
+                # Emergency reset - only for administrators
+                if env.user.has_group('kitchen_display.group_kitchen_display_admin'):
+                    for record in records:
+                        if record.state in ['preparing', 'ready']:
+                            record.write({'state': 'new'})
+                            record.message_post(body="Order reset by administrator", subtype_xmlid='mail.mt_note')
+                else:
+                    raise AccessError("Only administrators can perform emergency reset")
+            </field>
+            <field name="groups_id" eval="[(4, ref('group_kitchen_display_admin'))]"/>
+        </record>
+        
+    </data>
+</odoo>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Kitchen Order Sequence -->
+        <record id="sequence_kitchen_order" model="ir.sequence">
+            <field name="name">Kitchen Order Sequence</field>
+            <field name="code">kitchen.order</field>
+            <field name="prefix">KO</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        
+        <!-- Default Kitchen Display -->
+        <record id="kitchen_display_default" model="kitchen.display">
+            <field name="name">Main Kitchen Display</field>
+            <field name="location">Main Kitchen</field>
+            <field name="display_type">all</field>
+            <field name="is_active">True</field>
+            <field name="auto_refresh_interval">10</field>
+            <field name="max_orders_display">50</field>
+            <field name="background_color">#f8f9fa</field>
+            <field name="text_color">#212529</field>
+            <field name="font_size">medium</field>
+            <field name="show_customer_name">True</field>
+            <field name="show_order_time">True</field>
+            <field name="show_special_instructions">True</field>
+            <field name="show_table_number">True</field>
+            <field name="sound_enabled">True</field>
+            <field name="sound_new_order">chime</field>
+            <field name="layout_type">kanban</field>
+            <field name="columns_count">4</field>
+        </record>
+        
+        <!-- Sample Kitchen Orders for Testing -->
+        <record id="kitchen_order_sample_1" model="kitchen.order">
+            <field name="name">KO0001</field>
+            <field name="customer_name">John Doe</field>
+            <field name="table_number">5</field>
+            <field name="status">to_cook</field>
+            <field name="priority">normal</field>
+            <field name="estimated_time">15</field>
+            <field name="special_instructions">No onions, extra sauce</field>
+        </record>
+        
+        <record id="kitchen_order_sample_2" model="kitchen.order">
+            <field name="name">KO0002</field>
+            <field name="customer_name">Jane Smith</field>
+            <field name="table_number">3</field>
+            <field name="status">ready</field>
+            <field name="priority">high</field>
+            <field name="estimated_time">12</field>
+            <field name="special_instructions">Extra spicy</field>
+        </record>
+        
+        <record id="kitchen_order_sample_3" model="kitchen.order">
+            <field name="name">KO0003</field>
+            <field name="customer_name">Bob Johnson</field>
+            <field name="table_number">1</field>
+            <field name="status">completed</field>
+            <field name="priority">urgent</field>
+            <field name="estimated_time">8</field>
+            <field name="special_instructions">Gluten-free</field>
+        </record>
+    </data>
+</odoo>

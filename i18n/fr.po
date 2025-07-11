@@ -1,0 +1,119 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* kitchen_display
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-01 12:00+0000\n"
+"PO-Revision-Date: 2024-01-01 12:00+0000\n"
+"Last-Translator: Azad Karipody Hamza <info@digicyfr.com>\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: fr\n"
+
+#. module: kitchen_display
+#: model:ir.model.fields,field_description:kitchen_display.field_kitchen_display__name
+#: model:ir.model.fields,field_description:kitchen_display.field_kitchen_order__name
+msgid "Display Name"
+msgstr "Nom d'Affichage"
+
+#. module: kitchen_display
+#: model:ir.model.fields,field_description:kitchen_display.field_kitchen_order__state
+msgid "State"
+msgstr "État"
+
+#. module: kitchen_display
+#: model:ir.model.fields,field_description:kitchen_display.field_kitchen_order__priority
+msgid "Priority"
+msgstr "Priorité"
+
+#. module: kitchen_display
+#: model:ir.model.fields,field_description:kitchen_display.field_kitchen_order__customer_name
+msgid "Customer Name"
+msgstr "Nom du Client"
+
+#. module: kitchen_display
+#: model:ir.model.fields,field_description:kitchen_display.field_kitchen_order__table_number
+msgid "Table Number"
+msgstr "Numéro de Table"
+
+#. module: kitchen_display
+#: model:ir.model.fields,field_description:kitchen_display.field_kitchen_order__special_instructions
+msgid "Special Instructions"
+msgstr "Instructions Spéciales"
+
+#. module: kitchen_display
+#: model:ir.model.fields,field_description:kitchen_display.field_kitchen_order__estimated_time
+msgid "Estimated Time (minutes)"
+msgstr "Temps Estimé (minutes)"
+
+#. module: kitchen_display
+#: model:ir.model.fields,field_description:kitchen_display.field_kitchen_order__elapsed_time
+msgid "Elapsed Time (minutes)"
+msgstr "Temps Écoulé (minutes)"
+
+#. module: kitchen_display
+#: model:ir.model.fields,selection:kitchen_display.field_kitchen_order__state
+msgid "New Order"
+msgstr "Nouvelle Commande"
+
+#. module: kitchen_display
+#: model:ir.model.fields,selection:kitchen_display.field_kitchen_order__state
+msgid "Preparing"
+msgstr "En Préparation"
+
+#. module: kitchen_display
+#: model:ir.model.fields,selection:kitchen_display.field_kitchen_order__state
+msgid "Ready for Pickup"
+msgstr "Prêt à Servir"
+
+#. module: kitchen_display
+#: model:ir.model.fields,selection:kitchen_display.field_kitchen_order__state
+msgid "Served"
+msgstr "Servi"
+
+#. module: kitchen_display
+#: model:ir.model.fields,selection:kitchen_display.field_kitchen_order__state
+msgid "Cancelled"
+msgstr "Annulé"
+
+#. module: kitchen_display
+#: model:ir.model.fields,selection:kitchen_display.field_kitchen_order__priority
+msgid "Low"
+msgstr "Faible"
+
+#. module: kitchen_display
+#: model:ir.model.fields,selection:kitchen_display.field_kitchen_order__priority
+msgid "Normal"
+msgstr "Normal"
+
+#. module: kitchen_display
+#: model:ir.model.fields,selection:kitchen_display.field_kitchen_order__priority
+msgid "High"
+msgstr "Élevé"
+
+#. module: kitchen_display
+#: model:ir.model.fields,selection:kitchen_display.field_kitchen_order__priority
+msgid "Urgent"
+msgstr "Urgent"
+
+#. module: kitchen_display
+#: model:ir.actions.act_window,name:kitchen_display.action_kitchen_display
+#: model:ir.ui.menu,name:kitchen_display.menu_kitchen_display
+msgid "Kitchen Displays"
+msgstr "Affichages de Cuisine"
+
+#. module: kitchen_display
+#: model:ir.actions.act_window,name:kitchen_display.action_kitchen_order
+#: model:ir.ui.menu,name:kitchen_display.menu_kitchen_order
+msgid "Kitchen Orders"
+msgstr "Commandes de Cuisine"
+
+#. module: kitchen_display
+#: model:ir.ui.menu,name:kitchen_display.menu_kitchen_main
+msgid "Kitchen Display"
+msgstr "Affichage de Cuisine"

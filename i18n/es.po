@@ -1,0 +1,143 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* kitchen_display
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-01 12:00+0000\n"
+"PO-Revision-Date: 2024-01-01 12:00+0000\n"
+"Last-Translator: Azad Karipody Hamza <info@digicyfr.com>\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: es\n"
+
+#. module: kitchen_display
+#: model:ir.model.fields,field_description:kitchen_display.field_kitchen_display__name
+#: model:ir.model.fields,field_description:kitchen_display.field_kitchen_order__name
+msgid "Display Name"
+msgstr "Nombre de Pantalla"
+
+#. module: kitchen_display
+#: model:ir.model.fields,field_description:kitchen_display.field_kitchen_order__state
+msgid "State"
+msgstr "Estado"
+
+#. module: kitchen_display
+#: model:ir.model.fields,field_description:kitchen_display.field_kitchen_order__priority
+msgid "Priority"
+msgstr "Prioridad"
+
+#. module: kitchen_display
+#: model:ir.model.fields,field_description:kitchen_display.field_kitchen_order__customer_name
+msgid "Customer Name"
+msgstr "Nombre del Cliente"
+
+#. module: kitchen_display
+#: model:ir.model.fields,field_description:kitchen_display.field_kitchen_order__table_number
+msgid "Table Number"
+msgstr "Número de Mesa"
+
+#. module: kitchen_display
+#: model:ir.model.fields,field_description:kitchen_display.field_kitchen_order__special_instructions
+msgid "Special Instructions"
+msgstr "Instrucciones Especiales"
+
+#. module: kitchen_display
+#: model:ir.model.fields,field_description:kitchen_display.field_kitchen_order__estimated_time
+msgid "Estimated Time (minutes)"
+msgstr "Tiempo Estimado (minutos)"
+
+#. module: kitchen_display
+#: model:ir.model.fields,field_description:kitchen_display.field_kitchen_order__elapsed_time
+msgid "Elapsed Time (minutes)"
+msgstr "Tiempo Transcurrido (minutos)"
+
+#. module: kitchen_display
+#: model:ir.model.fields,selection:kitchen_display.field_kitchen_order__state
+msgid "New Order"
+msgstr "Pedido Nuevo"
+
+#. module: kitchen_display
+#: model:ir.model.fields,selection:kitchen_display.field_kitchen_order__state
+msgid "Preparing"
+msgstr "Preparando"
+
+#. module: kitchen_display
+#: model:ir.model.fields,selection:kitchen_display.field_kitchen_order__state
+msgid "Ready for Pickup"
+msgstr "Listo para Recoger"
+
+#. module: kitchen_display
+#: model:ir.model.fields,selection:kitchen_display.field_kitchen_order__state
+msgid "Served"
+msgstr "Servido"
+
+#. module: kitchen_display
+#: model:ir.model.fields,selection:kitchen_display.field_kitchen_order__state
+msgid "Cancelled"
+msgstr "Cancelado"
+
+#. module: kitchen_display
+#: model:ir.model.fields,selection:kitchen_display.field_kitchen_order__priority
+msgid "Low"
+msgstr "Baja"
+
+#. module: kitchen_display
+#: model:ir.model.fields,selection:kitchen_display.field_kitchen_order__priority
+msgid "Normal"
+msgstr "Normal"
+
+#. module: kitchen_display
+#: model:ir.model.fields,selection:kitchen_display.field_kitchen_order__priority
+msgid "High"
+msgstr "Alta"
+
+#. module: kitchen_display
+#: model:ir.model.fields,selection:kitchen_display.field_kitchen_order__priority
+msgid "Urgent"
+msgstr "Urgente"
+
+#. module: kitchen_display
+#: model:ir.actions.act_window,name:kitchen_display.action_kitchen_display
+#: model:ir.ui.menu,name:kitchen_display.menu_kitchen_display
+msgid "Kitchen Displays"
+msgstr "Pantallas de Cocina"
+
+#. module: kitchen_display
+#: model:ir.actions.act_window,name:kitchen_display.action_kitchen_order
+#: model:ir.ui.menu,name:kitchen_display.menu_kitchen_order
+msgid "Kitchen Orders"
+msgstr "Pedidos de Cocina"
+
+#. module: kitchen_display
+#: model:ir.ui.menu,name:kitchen_display.menu_kitchen_main
+msgid "Kitchen Display"
+msgstr "Pantalla de Cocina"
+
+#. module: kitchen_display
+#: code:addons/kitchen_display/models/kitchen_order.py:0
+#, python-format
+msgid "Only new orders can be started for preparation."
+msgstr "Solo los pedidos nuevos pueden comenzar preparación."
+
+#. module: kitchen_display
+#: code:addons/kitchen_display/models/kitchen_order.py:0
+#, python-format
+msgid "Only new or preparing orders can be marked as ready."
+msgstr "Solo los pedidos nuevos o en preparación pueden marcarse como listos."
+
+#. module: kitchen_display
+#: code:addons/kitchen_display/models/kitchen_order.py:0
+#, python-format
+msgid "Only ready orders can be marked as served."
+msgstr "Solo los pedidos listos pueden marcarse como servidos."
+
+#. module: kitchen_display
+#: code:addons/kitchen_display/models/kitchen_order.py:0
+#, python-format
+msgid "Cannot cancel served or already cancelled orders."
+msgstr "No se pueden cancelar pedidos servidos o ya cancelados."

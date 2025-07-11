@@ -1,0 +1,29 @@
+/* Kitchen Display System Pro - Professional Styling */
+
+.kitchen_display_container {
+    background: #f8f9fa;
+    min-height: 100vh;
+    padding: 15px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.kitchen_order_card {
+    background: white;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border-left: 4px solid #28a745;
+    transition: all 0.3s ease;
+}
+
+.kitchen_order_card.priority_urgent {
+    border-left-color: #dc3545;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(220, 53, 69, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); }
+}

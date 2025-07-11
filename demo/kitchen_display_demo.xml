@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Demo Product Categories for Kitchen Display -->
+        <record id="product_category_appetizers" model="product.category">
+            <field name="name">Appetizers</field>
+            <field name="parent_id" ref="product.product_category_all"/>
+        </record>
+        
+        <record id="product_category_main_dishes" model="product.category">
+            <field name="name">Main Dishes</field>
+            <field name="parent_id" ref="product.product_category_all"/>
+        </record>
+        
+        <record id="product_category_beverages" model="product.category">
+            <field name="name">Beverages</field>
+            <field name="parent_id" ref="product.product_category_all"/>
+        </record>
+        
+        <record id="product_category_desserts" model="product.category">
+            <field name="name">Desserts</field>
+            <field name="parent_id" ref="product.product_category_all"/>
+        </record>
+        
+        <!-- Demo Products -->
+        <record id="demo_product_burger" model="product.product">
+            <field name="name">Classic Burger</field>
+            <field name="categ_id" ref="product_category_main_dishes"/>
+            <field name="type">consu</field>
+            <field name="list_price">12.50</field>
+            <field name="available_in_pos" eval="True"/>
+        </record>
+        
+        <record id="demo_product_pizza" model="product.product">
+            <field name="name">Margherita Pizza</field>
+            <field name="categ_id" ref="product_category_main_dishes"/>
+            <field name="type">consu</field>
+            <field name="list_price">15.00</field>
+            <field name="available_in_pos" eval="True"/>
+        </record>
+        
+        <record id="demo_product_salad" model="product.product">
+            <field name="name">Caesar Salad</field>
+            <field name="categ_id" ref="product_category_appetizers"/>
+            <field name="type">consu</field>
+            <field name="list_price">8.50</field>
+            <field name="available_in_pos" eval="True"/>
+        </record>
+        
+        <record id="demo_product_coffee" model="product.product">
+            <field name="name">Espresso Coffee</field>
+            <field name="categ_id" ref="product_category_beverages"/>
+            <field name="type">consu</field>
+            <field name="list_price">3.50</field>
+            <field name="available_in_pos" eval="True"/>
+        </record>
+        
+        <!-- Demo Kitchen Displays -->
+        <record id="demo_kitchen_display_main" model="kitchen.display">
+            <field name="name">Main Kitchen Display</field>
+            <field name="display_type">all</field>
+            <field name="location">Main Kitchen</field>
+            <field name="is_active" eval="True"/>
+            <field name="auto_refresh_interval">10</field>
+            <field name="max_orders_display">20</field>
+            <field name="show_customer_name" eval="True"/>
+            <field name="show_order_time" eval="True"/>
+            <field name="show_special_instructions" eval="True"/>
+            <field name="show_table_number" eval="True"/>
+            <field name="sound_enabled" eval="True"/>
+            <field name="sound_new_order">chime</field>
+            <field name="layout_type">kanban</field>
+            <field name="category_ids" eval="[(6, 0, [ref('product_category_main_dishes'), ref('product_category_appetizers')])]"/>
+        </record>
+        
+        <record id="demo_kitchen_display_prep" model="kitchen.display">
+            <field name="name">Preparation Station</field>
+            <field name="display_type">preparation</field>
+            <field name="location">Prep Station</field>
+            <field name="is_active" eval="True"/>
+            <field name="auto_refresh_interval">15</field>
+            <field name="max_orders_display">15</field>
+            <field name="show_customer_name" eval="False"/>
+            <field name="show_order_time" eval="True"/>
+            <field name="show_special_instructions" eval="True"/>
+            <field name="show_table_number" eval="True"/>
+            <field name="sound_enabled" eval="True"/>
+            <field name="sound_new_order">beep</field>
+            <field name="layout_type">list</field>
+            <field name="category_ids" eval="[(6, 0, [ref('product_category_appetizers')])]"/>
+        </record>
+        
+        <record id="demo_kitchen_display_beverage" model="kitchen.display">
+            <field name="name">Beverage Station</field>
+            <field name="display_type">custom</field>
+            <field name="location">Beverage Bar</field>
+            <field name="is_active" eval="True"/>
+            <field name="auto_refresh_interval">5</field>
+            <field name="max_orders_display">10</field>
+            <field name="show_customer_name" eval="True"/>
+            <field name="show_order_time" eval="False"/>
+            <field name="show_special_instructions" eval="True"/>
+            <field name="show_table_number" eval="True"/>
+            <field name="sound_enabled" eval="True"/>
+            <field name="sound_new_order">bell</field>
+            <field name="layout_type">grid</field>
+            <field name="columns_count">3</field>
+            <field name="category_ids" eval="[(6, 0, [ref('product_category_beverages')])]"/>
+        </record>
+        
+        <!-- Demo Kitchen Orders -->
+        <record id="demo_kitchen_order_001" model="kitchen.order">
+            <field name="name">KO-001</field>
+            <field name="customer_name">John Smith</field>
+            <field name="table_number">Table 5</field>
+            <field name="state">new</field>
+            <field name="priority">normal</field>
+            <field name="estimated_time">15</field>
+            <field name="special_instructions">No onions, extra cheese</field>
+            <field name="delivery_platform">pos</field>
+            <field name="display_ids" eval="[(6, 0, [ref('demo_kitchen_display_main')])]"/>
+        </record>
+        
+        <record id="demo_kitchen_order_002" model="kitchen.order">
+            <field name="name">KO-002</field>
+            <field name="customer_name">Maria Garcia</field>
+            <field name="table_number">Table 3</field>
+            <field name="state">preparing</field>
+            <field name="priority">high</field>
+            <field name="estimated_time">12</field>
+            <field name="special_instructions">Gluten-free bread</field>
+            <field name="delivery_platform">pos</field>
+            <field name="cooking_time" eval="(DateTime.now() - timedelta(minutes=5)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="display_ids" eval="[(6, 0, [ref('demo_kitchen_display_main')])]"/>
+        </record>
+        
+        <record id="demo_kitchen_order_003" model="kitchen.order">
+            <field name="name">KO-003</field>
+            <field name="customer_name">Robert Johnson</field>
+            <field name="table_number">Table 7</field>
+            <field name="state">ready</field>
+            <field name="priority">normal</field>
+            <field name="estimated_time">10</field>
+            <field name="special_instructions">Dressing on the side</field>
+            <field name="delivery_platform">pos</field>
+            <field name="cooking_time" eval="(DateTime.now() - timedelta(minutes=12)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="ready_time" eval="(DateTime.now() - timedelta(minutes=2)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="display_ids" eval="[(6, 0, [ref('demo_kitchen_display_main')])]"/>
+        </record>
+        
+        <!-- Demo Kitchen Order Lines -->
+        <record id="demo_kitchen_order_line_001_1" model="kitchen.order.line">
+            <field name="order_id" ref="demo_kitchen_order_001"/>
+            <field name="product_id" ref="demo_product_burger"/>
+            <field name="quantity">2</field>
+            <field name="special_instructions">Medium rare</field>
+        </record>
+        
+        <record id="demo_kitchen_order_line_001_2" model="kitchen.order.line">
+            <field name="order_id" ref="demo_kitchen_order_001"/>
+            <field name="product_id" ref="demo_product_coffee"/>
+            <field name="quantity">2</field>
+        </record>
+        
+        <record id="demo_kitchen_order_line_002_1" model="kitchen.order.line">
+            <field name="order_id" ref="demo_kitchen_order_002"/>
+            <field name="product_id" ref="demo_product_pizza"/>
+            <field name="quantity">1</field>
+            <field name="special_instructions">Extra mushrooms</field>
+        </record>
+        
+        <record id="demo_kitchen_order_line_003_1" model="kitchen.order.line">
+            <field name="order_id" ref="demo_kitchen_order_003"/>
+            <field name="product_id" ref="demo_product_salad"/>
+            <field name="quantity">1</field>
+        </record>
+        
+        <record id="demo_kitchen_order_line_003_2" model="kitchen.order.line">
+            <field name="order_id" ref="demo_kitchen_order_003"/>
+            <field name="product_id" ref="demo_product_coffee"/>
+            <field name="quantity">1</field>
+        </record>
+        
+    </data>
+</odoo>

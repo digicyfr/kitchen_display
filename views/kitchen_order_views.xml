@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Kitchen Order Tree View -->
+    <record id="kitchen_order_tree_view" model="ir.ui.view">
+        <field name="name">kitchen.order.tree</field>
+        <field name="model">kitchen.order</field>
+        <field name="arch" type="xml">
+            <tree string="Kitchen Orders" decoration-success="status=='ready'" decoration-warning="status=='preparation'" decoration-info="status=='cooking'" decoration-muted="status=='served'">
+                <field name="name"/>
+                <field name="customer_name"/>
+                <field name="table_number"/>
+                <field name="status"/>
+                <field name="priority"/>
+                <field name="order_time"/>
+                <field name="elapsed_time"/>
+                <field name="estimated_time"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Kitchen Order Form View -->
+    <record id="kitchen_order_form_view" model="ir.ui.view">
+        <field name="name">kitchen.order.form</field>
+        <field name="model">kitchen.order</field>
+        <field name="arch" type="xml">
+            <form string="Kitchen Order">
+                <header>
+                    <button name="action_mark_ready" type="object" string="Mark Ready" 
+                            invisible="status != 'to_cook'" class="btn-success"/>
+                    <button name="action_mark_completed" type="object" string="Mark Completed" 
+                            invisible="status != 'ready'" class="btn-primary"/>
+                    <button name="action_cancel" type="object" string="Cancel" 
+                            invisible="status in ['completed', 'cancelled']" class="btn-secondary"/>
+                    <field name="status" widget="statusbar" statusbar_visible="to_cook,ready,completed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name" placeholder="Order Number"/></h1>
+                    </div>
+                    <group>
+                        <group name="order_info">
+                            <field name="customer_name"/>
+                            <field name="table_number"/>
+                            <field name="pos_order_id"/>
+                            <field name="priority"/>
+                        </group>
+                        <group name="timing">
+                            <field name="order_time"/>
+                            <field name="estimated_time"/>
+                            <field name="elapsed_time"/>
+                            <field name="cooking_time" invisible="not cooking_time"/>
+                            <field name="ready_time" invisible="not ready_time"/>
+                            <field name="completed_time" invisible="not completed_time"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="special_instructions" placeholder="Special cooking instructions..."/>
+                    </group>
+                    <notebook>
+                        <page string="Order Lines" name="order_lines">
+                            <field name="order_lines">
+                                <tree editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="product_name"/>
+                                    <field name="quantity"/>
+                                    <field name="status"/>
+                                    <field name="special_instructions"/>
+                                    <field name="preparation_time"/>
+                                    <field name="category_id"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Kitchen Order Action -->
+    <record id="kitchen_order_action" model="ir.actions.act_window">
+        <field name="name">Kitchen Orders</field>
+        <field name="res_model">kitchen.order</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No kitchen orders yet!
+            </p>
+            <p>
+                Kitchen orders will appear here when customers place orders through the POS system.
+                You can track order status and manage kitchen workflow from this view.
+            </p>
+        </field>
+    </record>
+
+    <!-- Kitchen Order Kanban View with All Section -->
+    <record id="kitchen_order_kanban_view" model="ir.ui.view">
+        <field name="name">kitchen.order.kanban</field>
+        <field name="model">kitchen.order</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="status" class="kitchen_board_kanban" create="false" edit="false" delete="false" on_create="quick_create"
+                    group_create="false" group_delete="false" group_edit="false" quick_create="false"
+                    groups_draggable="false" records_draggable="false">
+                <field name="id"/>
+                <field name="name"/>
+                <field name="customer_name"/>
+                <field name="table_number"/>
+                <field name="status"/>
+                <field name="priority"/>
+                <field name="order_time"/>
+                <field name="elapsed_time"/>
+                <field name="estimated_time"/>
+                <field name="display_color"/>
+                <field name="special_instructions"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="kitchen_order_card" t-att-data-priority="record.priority.raw_value" t-att-data-status="record.status.raw_value">
+                            <!-- Order Header -->
+                            <div class="kitchen_order_header">
+                                <div class="order_info">
+                                    <h3 class="order_number">
+                                        <field name="name"/>
+                                    </h3>
+                                    <div class="customer_info">
+                                        <strong><field name="customer_name"/></strong>
+                                        <t t-if="record.table_number.raw_value">
+                                            <span class="table_number">Table <field name="table_number"/></span>
+                                        </t>
+                                    </div>
+                                </div>
+                                <div class="order_timing">
+                                    <div class="elapsed_time" t-att-class="record.elapsed_time.raw_value > record.estimated_time.raw_value ? 'overdue' : ''">
+                                        <strong><field name="elapsed_time"/>min</strong>
+                                    </div>
+                                    <div class="estimated_time">
+                                        Est: <field name="estimated_time"/>min
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Priority Badge -->
+                            <div class="priority_badge" t-att-class="'priority_' + record.priority.raw_value">
+                                <t t-if="record.priority.raw_value == 'urgent'">🔥 URGENT</t>
+                                <t t-if="record.priority.raw_value == 'high'">⚡ HIGH</t>
+                                <t t-if="record.priority.raw_value == 'normal'">📋 NORMAL</t>
+                                <t t-if="record.priority.raw_value == 'low'">💧 LOW</t>
+                            </div>
+                            
+                            <!-- Special Instructions -->
+                            <t t-if="record.special_instructions.raw_value">
+                                <div class="special_instructions">
+                                    <i class="fa fa-exclamation-triangle"></i>
+                                    <field name="special_instructions"/>
+                                </div>
+                            </t>
+                            
+                            <!-- Action Buttons -->
+                            <div class="kitchen_actions">
+                                <t t-if="record.status.raw_value == 'to_cook'">
+                                    <button type="object" name="action_mark_ready" class="btn btn-success btn-lg kitchen_btn mark_ready_btn">
+                                        <i class="fa fa-check"></i> READY
+                                    </button>
+                                </t>
+                                <t t-if="record.status.raw_value == 'ready'">
+                                    <button type="object" name="action_mark_completed" class="btn btn-primary btn-lg kitchen_btn mark_completed_btn">
+                                        <i class="fa fa-check-circle"></i> COMPLETED
+                                    </button>
+                                    <button type="object" name="action_undo_ready" class="btn btn-secondary btn-sm kitchen_undo_btn">
+                                        <i class="fa fa-undo"></i>
+                                    </button>
+                                </t>
+                                <t t-if="record.status.raw_value == 'completed'">
+                                    <div class="completed_message">
+                                        <i class="fa fa-check-circle text-success"></i> Order Completed
+                                    </div>
+                                    <button type="object" name="action_undo_completed" class="btn btn-secondary btn-sm kitchen_undo_btn">
+                                        <i class="fa fa-undo"></i>
+                                    </button>
+                                </t>
+                            </div>
+                            
+                            <!-- Order Time -->
+                            <div class="order_timestamp">
+                                <i class="fa fa-clock-o"></i> <field name="order_time"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Kitchen Board Action (Main Kitchen Interface) -->
+    <record id="kitchen_order_action_kanban" model="ir.actions.act_window">
+        <field name="name">🍳 Kitchen Board</field>
+        <field name="res_model">kitchen.order</field>
+        <field name="view_mode">kanban</field>
+        <field name="view_id" ref="kitchen_order_kanban_view"/>
+        <field name="target">current</field>
+        <field name="context">{'kitchen_board': True, 'search_default_active_orders': 1}</field>
+    </record>
+
+    <!-- Kitchen Orders List Action -->
+    <record id="kitchen_order_action_list" model="ir.actions.act_window">
+        <field name="name">Kitchen Orders (List)</field>
+        <field name="res_model">kitchen.order</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="view_id" ref="kitchen_order_tree_view"/>
+    </record>
+</odoo>

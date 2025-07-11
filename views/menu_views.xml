@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Kitchen Display Menu -->
+    <menuitem id="kitchen_display_main_menu" name="🍳 Kitchen Display" sequence="15" web_icon="kitchen_display,static/description/icon.png"/>
+    
+    <!-- Main Kitchen Board (Primary Menu Item) -->
+    <menuitem id="kitchen_board_main_menu" name="🎯 Kitchen Board" parent="kitchen_display_main_menu" 
+              action="kitchen_order_action_kanban" sequence="5"/>
+    
+    <!-- Kitchen Display Sub-menus -->
+    <menuitem id="kitchen_display_operations_menu" name="📋 Operations" parent="kitchen_display_main_menu" sequence="10"/>
+    <menuitem id="kitchen_display_config_menu" name="⚙️ Configuration" parent="kitchen_display_main_menu" sequence="20"/>
+    
+    <!-- Operations Menu Items -->
+    <menuitem id="kitchen_order_menu_item" name="📝 Order List" parent="kitchen_display_operations_menu" 
+              action="kitchen_order_action_list" sequence="10"/>
+    <menuitem id="kitchen_order_kanban_menu_item" name="📊 Kitchen Board (Alt)" parent="kitchen_display_operations_menu" 
+              action="kitchen_order_action_kanban" sequence="20"/>
+    
+    <!-- Configuration Menu Items -->
+    <menuitem id="kitchen_display_menu_item" name="🖥️ Display Settings" parent="kitchen_display_config_menu" 
+              action="kitchen_display_action" sequence="10"/>
+</odoo>

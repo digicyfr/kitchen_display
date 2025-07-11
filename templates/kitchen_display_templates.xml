@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Full-Screen Kitchen Display Template -->
+    <template id="kitchen_display_fullscreen" name="Kitchen Display Full Screen">
+        <t t-call="web.layout">
+            <t t-set="head_website">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+                <meta name="apple-mobile-web-app-capable" content="yes"/>
+                <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+                <link rel="stylesheet" href="/kitchen_display/static/src/css/kitchen_display.css"/>
+                <script src="/kitchen_display/static/src/js/kitchen_display.js"></script>
+                <style>
+                    body {
+                        margin: 0;
+                        padding: 0;
+                        background: #f8f9fa;
+                        font-family: 'Roboto', Arial, sans-serif;
+                        overflow: hidden;
+                    }
+                    .kitchen_fullscreen_container {
+                        height: 100vh;
+                        width: 100vw;
+                        display: flex;
+                        flex-direction: column;
+                    }
+                    .kitchen_header {
+                        background: #343a40;
+                        color: white;
+                        padding: 15px 20px;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                    }
+                    .kitchen_title {
+                        font-size: 28px;
+                        font-weight: bold;
+                        margin: 0;
+                    }
+                    .kitchen_clock {
+                        font-size: 24px;
+                        font-weight: bold;
+                        color: #17a2b8;
+                    }
+                    .kitchen_stats {
+                        display: flex;
+                        gap: 20px;
+                        font-size: 14px;
+                    }
+                    .kitchen_content {
+                        flex: 1;
+                        padding: 20px;
+                        overflow-y: auto;
+                    }
+                    .kitchen_columns {
+                        display: grid;
+                        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                        gap: 20px;
+                        height: 100%;
+                    }
+                    .kitchen_column {
+                        background: white;
+                        border-radius: 12px;
+                        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                        overflow: hidden;
+                        min-height: 70vh;
+                    }
+                    .kitchen_column_header {
+                        padding: 15px;
+                        font-size: 20px;
+                        font-weight: bold;
+                        text-align: center;
+                        text-transform: uppercase;
+                        letter-spacing: 1px;
+                        color: white;
+                    }
+                    .kitchen_column_content {
+                        padding: 15px;
+                        max-height: calc(70vh - 60px);
+                        overflow-y: auto;
+                    }
+                    .status_new .kitchen_column_header {
+                        background: #6c757d;
+                    }
+                    .status_preparation .kitchen_column_header {
+                        background: #007bff;
+                    }
+                    .status_cooking .kitchen_column_header {
+                        background: #fd7e14;
+                    }
+                    .status_ready .kitchen_column_header {
+                        background: #28a745;
+                    }
+                    .kitchen_order_item {
+                        background: #f8f9fa;
+                        border: 2px solid #e9ecef;
+                        border-radius: 8px;
+                        padding: 15px;
+                        margin-bottom: 15px;
+                        position: relative;
+                        transition: all 0.3s ease;
+                    }
+                    .kitchen_order_item:hover {
+                        transform: translateY(-2px);
+                        box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+                    }
+                    .kitchen_controls {
+                        position: fixed;
+                        bottom: 20px;
+                        right: 20px;
+                        display: flex;
+                        gap: 10px;
+                        z-index: 1000;
+                    }
+                    .kitchen_control_btn {
+                        width: 60px;
+                        height: 60px;
+                        border-radius: 50%;
+                        border: none;
+                        color: white;
+                        font-size: 24px;
+                        cursor: pointer;
+                        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                        transition: all 0.3s ease;
+                    }
+                    .kitchen_control_btn:hover {
+                        transform: scale(1.1);
+                    }
+                    .refresh_btn {
+                        background: #28a745;
+                    }
+                    .fullscreen_btn {
+                        background: #007bff;
+                    }
+                    .sound_btn {
+                        background: #fd7e14;
+                    }
+                </style>
+            </t>
+            
+            <div class="kitchen_fullscreen_container">
+                <!-- Kitchen Header -->
+                <div class="kitchen_header">
+                    <div>
+                        <h1 class="kitchen_title">🍳 Kitchen Display - <t t-esc="display.name or 'Main Kitchen'"/></h1>
+                        <div class="kitchen_stats">
+                            <span>📋 New: <span id="new_count">0</span></span>
+                            <span>🔄 Prep: <span id="prep_count">0</span></span>
+                            <span>🔥 Cooking: <span id="cooking_count">0</span></span>
+                            <span>✅ Ready: <span id="ready_count">0</span></span>
+                        </div>
+                    </div>
+                    <div class="kitchen_clock" id="kitchen_clock">
+                        <script>
+                            <![CDATA[
+                            function updateClock() {
+                                const now = new Date();
+                                const timeString = now.toLocaleTimeString();
+                                document.getElementById('kitchen_clock').textContent = timeString;
+                            }
+                            setInterval(updateClock, 1000);
+                            updateClock();
+                            ]]>
+                        </script>
+                    </div>
+                </div>
+                
+                <!-- Kitchen Content -->
+                <div class="kitchen_content">
+                    <div class="kitchen_columns">
+                        <!-- New Orders Column -->
+                        <div class="kitchen_column status_new">
+                            <div class="kitchen_column_header">
+                                📋 New Orders
+                            </div>
+                            <div class="kitchen_column_content" id="new_orders">
+                                <!-- Orders will be populated by JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <!-- Preparation Column -->
+                        <div class="kitchen_column status_preparation">
+                            <div class="kitchen_column_header">
+                                🔄 In Preparation
+                            </div>
+                            <div class="kitchen_column_content" id="preparation_orders">
+                                <!-- Orders will be populated by JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <!-- Cooking Column -->
+                        <div class="kitchen_column status_cooking">
+                            <div class="kitchen_column_header">
+                                🔥 Cooking
+                            </div>
+                            <div class="kitchen_column_content" id="cooking_orders">
+                                <!-- Orders will be populated by JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <!-- Ready Column -->
+                        <div class="kitchen_column status_ready">
+                            <div class="kitchen_column_header">
+                                ✅ Ready
+                            </div>
+                            <div class="kitchen_column_content" id="ready_orders">
+                                <!-- Orders will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Kitchen Controls -->
+                <div class="kitchen_controls">
+                    <button class="kitchen_control_btn refresh_btn" onclick="refreshOrders()" title="Refresh Orders">
+                        🔄
+                    </button>
+                    <button class="kitchen_control_btn fullscreen_btn" onclick="toggleFullscreen()" title="Toggle Fullscreen">
+                        🔍
+                    </button>
+                    <button class="kitchen_control_btn sound_btn" onclick="toggleSound()" title="Toggle Sound">
+                        🔊
+                    </button>
+                </div>
+            </div>
+            
+            <script>
+                <![CDATA[
+                // Kitchen Display JavaScript
+                let autoRefreshInterval;
+                let soundEnabled = true;
+                
+                function refreshOrders() {
+                    // Fetch orders from the server
+                    fetch('/kitchen_display/orders', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            jsonrpc: '2.0',
+                            method: 'call',
+                            params: {
+                                display_id: ]]><t t-esc="display.id if display else 'null'"/><![CDATA[
+                            },
+                            id: new Date().getTime()
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.result && data.result.success) {
+                            updateOrderDisplay(data.result.data.orders);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching orders:', error);
+                    });
+                }
+                ]]>
+                
+                <![CDATA[
+                function updateOrderDisplay(orders) {
+                    // Clear existing orders
+                    const containers = ['new_orders', 'preparation_orders', 'cooking_orders', 'ready_orders'];
+                    containers.forEach(id => {
+                        document.getElementById(id).innerHTML = '';
+                    });
+                    
+                    // Reset counters
+                    const counts = { new: 0, preparation: 0, cooking: 0, ready: 0 };
+                    
+                    // Populate orders
+                    orders.forEach(order => {
+                        const orderElement = createOrderElement(order);
+                        const containerId = order.status + '_orders';
+                        const container = document.getElementById(containerId);
+                        if (container) {
+                            container.appendChild(orderElement);
+                            counts[order.status]++;
+                        }
+                    });
+                    
+                    // Update counters
+                    document.getElementById('new_count').textContent = counts.new;
+                    document.getElementById('prep_count').textContent = counts.preparation;
+                    document.getElementById('cooking_count').textContent = counts.cooking;
+                    document.getElementById('ready_count').textContent = counts.ready;
+                }
+                
+                function createOrderElement(order) {
+                    const div = document.createElement('div');
+                    div.className = 'kitchen_order_item';
+                    div.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <h3 style="margin: 0; font-size: 20px; color: #343a40;">${order.name}</h3>
+                            <div style="text-align: right; font-size: 12px; color: #6c757d;">
+                                <div>${order.elapsed_time || 0}min</div>
+                                <div>Est: ${order.estimated_time || 15}min</div>
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 10px;">
+                            <strong>${order.customer_name || 'Walk-in'}</strong>
+                            ${order.table_number ? `<span style="background: #007bff; color: white; padding: 2px 6px; border-radius: 10px; font-size: 10px; margin-left: 10px;">Table ${order.table_number}</span>` : ''}
+                        </div>
+                        ${order.special_instructions ? `<div style="background: #fff3cd; padding: 8px; border-radius: 5px; font-size: 12px; margin-bottom: 10px;">⚠️ ${order.special_instructions}</div>` : ''}
+                        <div style="font-size: 10px; color: #6c757d;">
+                            🕐 ${order.order_time || 'Unknown'}
+                        </div>
+                    `;
+                    return div;
+                }
+                
+                function toggleFullscreen() {
+                    if (!document.fullscreenElement) {
+                        document.documentElement.requestFullscreen();
+                    } else {
+                        document.exitFullscreen();
+                    }
+                }
+                
+                function toggleSound() {
+                    soundEnabled = !soundEnabled;
+                    const btn = document.querySelector('.sound_btn');
+                    btn.textContent = soundEnabled ? '🔊' : '🔇';
+                    btn.style.background = soundEnabled ? '#fd7e14' : '#6c757d';
+                }
+                
+                // Start auto-refresh
+                function startAutoRefresh() {
+                    refreshOrders(); // Initial load
+                    autoRefreshInterval = setInterval(refreshOrders, 30000); // Refresh every 30 seconds
+                }
+                
+                // Initialize
+                document.addEventListener('DOMContentLoaded', function() {
+                    startAutoRefresh();
+                    
+                    // Keyboard shortcuts
+                    document.addEventListener('keydown', function(e) {
+                        if (e.key === 'F5') {
+                            e.preventDefault();
+                            refreshOrders();
+                        }
+                        if (e.key === 'F11') {
+                            e.preventDefault();
+                            toggleFullscreen();
+                        }
+                    });
+                });
+                ]]>
+            </script>
+        </t>
+    </template>
+</odoo>
