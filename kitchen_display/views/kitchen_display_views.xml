@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Kitchen Display Tree View -->
+    <record id="kitchen_display_tree_view" model="ir.ui.view">
+        <field name="name">kitchen.display.tree</field>
+        <field name="model">kitchen.display</field>
+        <field name="arch" type="xml">
+            <tree string="Kitchen Displays">
+                <field name="name"/>
+                <field name="location"/>
+                <field name="display_type"/>
+                <field name="layout_type"/>
+                <field name="is_active"/>
+                <field name="auto_refresh_interval"/>
+                <button name="action_open_kitchen_board" type="object" string="Open Board" icon="fa-tv" class="btn-primary"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Kitchen Display Form View -->
+    <record id="kitchen_display_form_view" model="ir.ui.view">
+        <field name="name">kitchen.display.form</field>
+        <field name="model">kitchen.display</field>
+        <field name="arch" type="xml">
+            <form string="Kitchen Display">
+                <header>
+                    <button name="action_open_kitchen_board" type="object" string="🍳 Open Kitchen Board" class="oe_highlight" icon="fa-tv"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name" placeholder="Display Name"/></h1>
+                    </div>
+                    <group>
+                        <group name="basic_info">
+                            <field name="location"/>
+                            <field name="display_type"/>
+                            <field name="is_active"/>
+                        </group>
+                        <group name="display_settings">
+                            <field name="auto_refresh_interval"/>
+                            <field name="max_orders_display"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Layout" name="layout">
+                            <group>
+                                <group name="layout_settings">
+                                    <field name="layout_type"/>
+                                    <field name="columns_count"/>
+                                </group>
+                            </group>
+                            <separator string="Kanban Column Visibility"/>
+                            <group string="Choose which order states to display as columns in kanban view">
+                                <group>
+                                    <field name="show_state_new"/>
+                                    <field name="show_state_preparing"/>
+                                    <field name="show_state_ready"/>
+                                </group>
+                                <group>
+                                    <field name="show_state_served"/>
+                                    <field name="show_state_cancelled"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Card Display" name="card_display">
+                            <separator string="Choose what information to show on kitchen order cards"/>
+                            <group>
+                                <group string="Essential Information">
+                                    <field name="show_customer_name"/>
+                                    <field name="show_table_number"/>
+                                    <field name="show_elapsed_time"/>
+                                    <field name="show_items_summary"/>
+                                </group>
+                                <group string="Additional Information">
+                                    <field name="show_special_instructions"/>
+                                    <field name="show_priority_badge"/>
+                                    <field name="show_preparation_time"/>
+                                    <field name="show_order_time"/>
+                                    <field name="show_order_total"/>
+                                </group>
+                            </group>
+                            <group>
+                                <div class="alert alert-info" role="alert">
+                                    <strong>Note:</strong> The Order Number is always shown.
+                                    Enable only the fields your kitchen staff needs to keep cards compact and easy to read.
+                                </div>
+                            </group>
+                        </page>
+                        <page string="Appearance" name="appearance">
+                            <group>
+                                <group name="colors">
+                                    <field name="background_color"/>
+                                    <field name="text_color"/>
+                                    <field name="font_size"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Filtering" name="filtering">
+                            <group>
+                                <group name="pos_filtering">
+                                    <field name="pos_config_ids" widget="many2many_tags"/>
+                                </group>
+                                <group name="category_filtering">
+                                    <field name="category_ids" widget="many2many_tags"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Advanced" name="advanced">
+                            <group>
+                                <group name="timing">
+                                    <field name="order_timeout_warning"/>
+                                    <field name="order_timeout_critical"/>
+                                </group>
+                                <group name="sound">
+                                    <field name="sound_enabled"/>
+                                    <field name="sound_new_order" invisible="not sound_enabled"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Kitchen Display Action -->
+    <record id="kitchen_display_action" model="ir.actions.act_window">
+        <field name="name">Kitchen Displays</field>
+        <field name="res_model">kitchen.display</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first kitchen display!
+            </p>
+            <p>
+                Kitchen displays help manage order flow in your restaurant kitchen.
+                Configure displays for different stations like preparation, cooking, or ready-to-serve.
+            </p>
+        </field>
+    </record>
+</odoo>

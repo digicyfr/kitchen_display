@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Extend Product Form View to add Kitchen Fields -->
+    <record id="product_template_form_view_kitchen" model="ir.ui.view">
+        <field name="name">product.template.form.kitchen</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='general_information']" position="after">
+                <page string="Kitchen" name="kitchen" invisible="not is_kitchen_item">
+                    <group>
+                        <group name="kitchen_prep">
+                            <field name="is_kitchen_item"/>
+                            <field name="kitchen_preparation_time" invisible="not is_kitchen_item"/>
+                            <field name="kitchen_category" invisible="not is_kitchen_item"/>
+                            <field name="kitchen_station" invisible="not is_kitchen_item"/>
+                        </group>
+                        <group name="kitchen_help">
+                            <p invisible="not is_kitchen_item" class="text-muted">
+                                Kitchen preparation time helps automatically calculate order completion estimates.
+                                Set to 0 to use default estimation (3 minutes per item).
+                            </p>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+            <!-- Also show is_kitchen_item checkbox in general info -->
+            <xpath expr="//group[@name='group_general']" position="inside">
+                <field name="is_kitchen_item"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Add Kitchen fields to Product Variant Form -->
+    <record id="product_variant_form_view_kitchen" model="ir.ui.view">
+        <field name="name">product.product.form.kitchen</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_variant_easy_edit_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='codes']" position="after">
+                <group string="Kitchen" name="kitchen" invisible="not is_kitchen_item">
+                    <field name="is_kitchen_item" invisible="1"/>
+                    <field name="kitchen_preparation_time"/>
+                    <field name="kitchen_category"/>
+                    <field name="kitchen_station"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

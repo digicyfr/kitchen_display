@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Custom Kitchen Board View with All Section -->
+    <record id="kitchen_board_custom_view" model="ir.ui.view">
+        <field name="name">kitchen.board.custom</field>
+        <field name="model">kitchen.order</field>
+        <field name="arch" type="xml">
+            <form string="Kitchen Board" create="false" edit="false">
+                <div class="kitchen_board_container">
+                    <div class="kitchen_board_columns">
+                        <!-- All Column -->
+                        <div class="kitchen_column all_column">
+                            <div class="kitchen_column_header all_header">
+                                📋 ALL ORDERS
+                            </div>
+                            <div class="kitchen_column_content" id="all_orders">
+                                <!-- Will be populated by JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <!-- To Cook Column -->
+                        <div class="kitchen_column to_cook_column">
+                            <div class="kitchen_column_header to_cook_header">
+                                🍳 TO COOK
+                            </div>
+                            <div class="kitchen_column_content" id="to_cook_orders">
+                                <!-- Will be populated by JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <!-- Ready Column -->
+                        <div class="kitchen_column ready_column">
+                            <div class="kitchen_column_header ready_header">
+                                ✅ READY
+                            </div>
+                            <div class="kitchen_column_content" id="ready_orders">
+                                <!-- Will be populated by JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <!-- Completed Column -->
+                        <div class="kitchen_column completed_column">
+                            <div class="kitchen_column_header completed_header">
+                                🏁 COMPLETED
+                            </div>
+                            <div class="kitchen_column_content" id="completed_orders">
+                                <!-- Will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <script>
+                    <![CDATA[
+                    // Custom Kitchen Board JavaScript
+                    function loadKitchenBoard() {
+                        // This will be called to populate the custom kitchen board
+                        console.log('Custom Kitchen Board Loaded');
+                    }
+                    
+                    document.addEventListener('DOMContentLoaded', loadKitchenBoard);
+                    ]]>
+                </script>
+            </form>
+        </field>
+    </record>
+    
+    <!-- Custom Kitchen Board Action -->
+    <record id="kitchen_board_custom_action" model="ir.actions.act_window">
+        <field name="name">🍳 Kitchen Board (Custom)</field>
+        <field name="res_model">kitchen.order</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="kitchen_board_custom_view"/>
+        <field name="target">current</field>
+        <field name="context">{'kitchen_board_custom': True}</field>
+    </record>
+</odoo>

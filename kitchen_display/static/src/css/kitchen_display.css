@@ -1,0 +1,405 @@
+/* ========================================
+   MODERN KITCHEN DISPLAY SYSTEM
+   Professional Restaurant UI Design
+   ======================================== */
+
+/* Kanban View Configuration */
+.kitchen_board_kanban .o_kanban_group {
+    min-width: 280px;
+    max-width: 320px;
+    padding: 0 8px;
+}
+
+.kitchen_board_kanban .o_kanban_record {
+    margin-bottom: 12px !important;
+    min-height: auto !important;
+}
+
+/* ========================================
+   MODERN KITCHEN CARD - Main Container
+   ======================================== */
+.kitchen_card_modern {
+    position: relative;
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2px solid transparent;
+}
+
+/* Hover Effect - Lift Card */
+.kitchen_card_modern:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* State-Based Styling */
+.kitchen_card_modern[data-state="new"] {
+    border-left: 5px solid #ffc107;
+    background: linear-gradient(135deg, #fffbf0 0%, #ffffff 100%);
+}
+
+.kitchen_card_modern[data-state="preparing"] {
+    border-left: 5px solid #17a2b8;
+    background: linear-gradient(135deg, #e8f7fa 0%, #ffffff 100%);
+}
+
+.kitchen_card_modern[data-state="ready"] {
+    border-left: 5px solid #28a745;
+    background: linear-gradient(135deg, #e8f5e9 0%, #ffffff 100%);
+}
+
+.kitchen_card_modern[data-state="served"] {
+    border-left: 5px solid #6c757d;
+    background: #f8f9fa;
+    opacity: 0.75;
+}
+
+/* Priority Glow Effect */
+.kitchen_card_modern[data-priority="urgent"] {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.15), 0 2px 8px rgba(0, 0, 0, 0.08);
+    animation: urgent-pulse 2s ease-in-out infinite;
+}
+
+@keyframes urgent-pulse {
+    0%, 100% { box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.15), 0 2px 8px rgba(0, 0, 0, 0.08); }
+    50% { box-shadow: 0 0 0 6px rgba(220, 53, 69, 0.25), 0 4px 12px rgba(0, 0, 0, 0.12); }
+}
+
+/* ========================================
+   TOP ACTION BUTTONS (Undo & Info)
+   ======================================== */
+.kitchen_card_actions {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 100;
+    display: flex;
+    gap: 6px;
+    pointer-events: auto;
+}
+
+.kitchen_action_btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 14px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 20;
+}
+
+.undo_btn {
+    background: #6c757d;
+    color: white;
+}
+
+.undo_btn:hover {
+    background: #5a6268;
+    transform: scale(1.1) rotate(-15deg);
+}
+
+.info_btn {
+    background: #007bff;
+    color: white;
+    pointer-events: auto;
+}
+
+.info_btn:hover {
+    background: #0056b3;
+    transform: scale(1.1);
+}
+
+/* ========================================
+   CLICKABLE CARD AREA - Full Card Click
+   ======================================== */
+.kitchen_card_clickable {
+    position: relative;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.kitchen_advance_overlay {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 0;
+    text-align: left;
+    cursor: pointer;
+    display: block;
+    position: relative;
+    z-index: 1;
+}
+
+.kitchen_advance_overlay:hover {
+    background: none;
+}
+
+.kitchen_card_content {
+    display: block;
+    padding: 16px;
+    padding-top: 12px;
+    padding-right: 80px; /* Space for action buttons */
+}
+
+/* Hover State for Clickable Card */
+.kitchen_card_modern:hover .kitchen_advance_overlay {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+/* ========================================
+   HEADER - Order Number & Table
+   ======================================== */
+.kitchen_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.order_number_modern {
+    font-size: 20px;
+    font-weight: 700;
+    color: #212529;
+    letter-spacing: 0.5px;
+}
+
+.table_badge_modern {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    box-shadow: 0 2px 6px rgba(0, 123, 255, 0.3);
+}
+
+/* ========================================
+   TIMER DISPLAY - Beautiful Timer
+   ======================================== */
+.kitchen_timer {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 25px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.kitchen_timer.on_time {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: white;
+}
+
+.kitchen_timer.overdue {
+    background: linear-gradient(135deg, #dc3545 0%, #ff6b6b 100%);
+    color: white;
+    animation: timer-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes timer-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.timer_value {
+    font-size: 18px;
+    line-height: 1;
+}
+
+.timer_unit {
+    font-size: 11px;
+    opacity: 0.9;
+    text-transform: uppercase;
+}
+
+/* ========================================
+   CUSTOMER INFO
+   ======================================== */
+.kitchen_customer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    color: #495057;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.kitchen_customer i {
+    color: #6c757d;
+    font-size: 16px;
+}
+
+/* ========================================
+   ITEMS LIST
+   ======================================== */
+.kitchen_items {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #6c757d;
+    margin-bottom: 12px;
+    max-height: 60px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+/* ========================================
+   FOOTER - Priority & Special Instructions
+   ======================================== */
+.kitchen_footer {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+    min-height: 24px;
+}
+
+.priority_badge_modern {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.priority_badge_modern[data-priority="urgent"] {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    color: white;
+    box-shadow: 0 2px 6px rgba(220, 53, 69, 0.3);
+    animation: priority-pulse 1.5s ease-in-out infinite;
+}
+
+.priority_badge_modern[data-priority="high"] {
+    background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+    color: white;
+    box-shadow: 0 2px 6px rgba(255, 152, 0, 0.3);
+}
+
+@keyframes priority-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+}
+
+.special_instr_badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+    color: #fff;
+    border-radius: 50%;
+    font-size: 11px;
+    box-shadow: 0 2px 4px rgba(255, 193, 7, 0.3);
+    animation: special-pulse 2s ease-in-out infinite;
+}
+
+@keyframes special-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+/* ========================================
+   CLICK HINT - Instruction Text
+   ======================================== */
+.click_hint {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed #dee2e6;
+    font-size: 12px;
+    color: #6c757d;
+    font-weight: 500;
+    text-align: center;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.kitchen_card_modern:hover .click_hint {
+    opacity: 1;
+    color: #495057;
+}
+
+.click_hint i {
+    margin-right: 4px;
+}
+
+/* ========================================
+   COMPLETED STATE
+   ======================================== */
+.completed_state {
+    text-align: center;
+    padding: 40px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #28a745;
+}
+
+.completed_state i {
+    font-size: 48px;
+    display: block;
+    margin-bottom: 12px;
+    opacity: 0.6;
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+@media (max-width: 1200px) {
+    .kitchen_board_kanban .o_kanban_group {
+        min-width: 260px;
+        max-width: 280px;
+    }
+}
+
+@media (max-width: 768px) {
+    .kitchen_board_kanban .o_kanban_group {
+        min-width: 100%;
+        max-width: 100%;
+    }
+
+    .kitchen_card_content {
+        padding: 14px;
+        padding-right: 70px;
+    }
+
+    .order_number_modern {
+        font-size: 18px;
+    }
+
+    .timer_value {
+        font-size: 16px;
+    }
+}
+
+/* ========================================
+   SMOOTH TRANSITIONS
+   ======================================== */
+* {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.kitchen_card_modern * {
+    transition: color 0.2s ease, background-color 0.2s ease;
+}
