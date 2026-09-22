@@ -1,151 +1,68 @@
-# Kitchen Display System Pro
+# Kitchen Display for Odoo 17
 
-Transform your kitchen operations with this comprehensive digital display system designed for modern restaurants and food service businesses.
+An Odoo 17 module prototype for configuring kitchen display stations and moving restaurant orders through `new`, `preparing`, `ready`, `served`, and `cancelled` states.
 
-## 🚀 Features
+This repository is separate from any Android or WooCommerce application. It does not currently demonstrate compatibility with WooCommerce, external delivery platforms, or standalone Android devices.
 
-- **Real-time Order Management**: Instant synchronization with POS systems
-- **Multi-Station Support**: Configure different displays for different kitchen stations
-- **Advanced Analytics**: Track preparation times and kitchen performance
-- **Smart Notifications**: Visual and audio alerts for new orders and timing
-- **Multi-Language Support**: Support for international operations
-- **Mobile Responsive**: Works on tablets, smartphones, and desktop displays
+## Current scope
 
-## 📋 Requirements
+The repository contains:
 
-- Odoo 17.0 or higher
-- Point of Sale module
-- Restaurant module (optional but recommended)
+- Odoo models for kitchen displays, kitchen orders, order lines, priorities, timing, and station assignment;
+- authenticated JSON routes for reading display data, creating kitchen orders, and updating order status;
+- Odoo views, access-control definitions, demo data, and a full-screen display template;
+- configurable display types, POS configurations, product-category filters, refresh intervals, warning thresholds, colours, sounds, and layouts;
+- basic order-count and preparation-time calculations.
 
-## 🛠️ Installation
+The browser-side JavaScript is still a scaffold: it installs event listeners and a refresh timer, but its RPC calls are not implemented. Treat the repository as source for technical review and further development, not as evidence of a completed production deployment.
 
-1. Download the module and place it in your Odoo addons directory
-2. Update the apps list in Odoo
-3. Install "Kitchen Display System Pro" from the Apps menu
-4. Configure your kitchen displays in Settings > Kitchen Display
+## Requirements
 
-## ⚙️ Configuration
+- Odoo 17
+- Point of Sale (`point_of_sale`)
+- Restaurant POS (`pos_restaurant`)
+- the additional Odoo modules listed in [`__manifest__.py`](./__manifest__.py)
 
-### Setting up Kitchen Displays
+## Installation for development
 
-1. Go to **Point of Sale > Configuration > Kitchen Displays**
-2. Create a new display with:
-   - Name and location
-   - Display type (All orders, Preparation, Cooking, Ready)
-   - Associated POS configurations
-   - Product categories to show
-   - Timing and appearance settings
+1. Clone or copy this repository into an Odoo addons directory named `kitchen_display`.
+2. Add that directory to the Odoo addons path.
+3. Restart Odoo and update the Apps list.
+4. Install **Kitchen Display System Pro** from Apps.
+5. Review access groups and test the module in a non-production database before using real operational data.
 
-### Display Types
+The module declares pre-installation, post-installation, and uninstall hooks. Review those hooks and your Odoo logs during installation.
 
-- **All Orders Dashboard**: Shows all active orders
-- **Preparation Station**: Shows only new orders waiting to be prepared
-- **Cooking Station**: Shows orders currently being prepared
-- **Ready Station**: Shows orders ready for pickup
-- **Custom Filter**: Custom configuration based on categories
+## Main routes
 
-### Security Groups
+All routes require an authenticated Odoo user:
 
-- **Kitchen Staff**: Can view and update order status
-- **Kitchen Manager**: Can configure displays and manage orders
-- **System Administrator**: Full access to all features
-- **Display Viewer**: Read-only access for monitoring displays
+| Route | Purpose |
+| --- | --- |
+| `POST /kitchen_display/orders` | Read orders for a configured display |
+| `POST /kitchen_display/update_order_status` | Move an order through an allowed status action |
+| `POST /kitchen_display/create_order` | Create a kitchen-order record from validated input |
+| `GET /kitchen_display/display/<display_id>` | Render one configured display |
+| `GET /kitchen_display/fullscreen` | Render the first active display or a newly created default |
 
-## 📱 Usage
+## Verification status
 
-### For Kitchen Staff
+No public compatibility matrix, automated test suite, performance benchmark, customer-volume claim, or production-support SLA is included in this repository. Validate the module against the exact Odoo edition, installed modules, POS configuration, browser, hardware, and operational workflow you intend to use.
 
-1. Access your assigned kitchen display
-2. View incoming orders in real-time
-3. Mark orders as:
-   - **Preparing**: When you start cooking
-   - **Ready**: When food is ready for pickup
-   - **Served**: When order is completed
+## Security and data
 
-### For Managers
+The routes use `auth='user'` and invoke Odoo access-right checks. A production review should also verify record rules, multi-company boundaries, CSRF behaviour, input validation, logging, and whether customer or order information should be visible on each station.
 
-1. Configure multiple displays for different stations
-2. Monitor kitchen performance with analytics
-3. Manage order priorities and special instructions
-4. Access comprehensive reporting
+Do not commit database credentials, API keys, production exports, or customer data.
 
-## 🔧 Technical Features
+## License
 
-- **WebSocket Integration**: Real-time updates without page refresh
-- **RESTful API**: For third-party integrations
-- **Multi-company Support**: Works with multi-company setups
-- **Scalable Architecture**: Supports multiple displays simultaneously
-- **Comprehensive Audit Trail**: Full logging of all actions
+The repository is licensed under the [Odoo Proprietary License v1.0](./LICENSE). It is source-available under those license terms; it is not an open-source GPL project.
 
-## 🎯 Benefits
+## Maintainer
 
-- Reduce order preparation time by up to 30%
-- Eliminate order errors and miscommunication
-- Improve kitchen staff coordination
-- Enhance customer satisfaction with faster service
-- Gain insights with performance analytics
+CYFR Sp. z o.o., operating under the Digicyfr brand
 
-## 📊 Analytics & Reporting
+[www.digicyfr.com](https://www.digicyfr.com) · [info@digicyfr.com](mailto:info@digicyfr.com)
 
-- Order completion times
-- Kitchen performance metrics
-- Peak hour analysis
-- Staff efficiency tracking
-- Custom dashboard views
-
-## 🌐 Multi-Language Support
-
-The module supports multiple languages with easy translation management:
-- English (default)
-- Spanish
-- French
-- German
-- Italian
-- And more...
-
-## 🔗 Integration
-
-### POS Integration
-Seamlessly integrates with Odoo Point of Sale to automatically create kitchen orders.
-
-### Delivery Platform Integration
-Compatible with delivery platform modules for external orders.
-
-### Custom Integrations
-RESTful API available for custom integrations with third-party systems.
-
-## 🆘 Support
-
-For technical support and customizations:
-- **Contact:** Azad Karipody Hamza
-- **Company:** Digicyfr Polska  
-- **Email:** info@digicyfr.com
-- **Phone:** +48 695 021 633
-- **Website:** https://www.digicyfr.com
-- **Documentation:** Available in the module
-- **Video Tutorials:** Included with installation
-
-## 📄 License
-
-This module is licensed under OPL-1 (Odoo Proprietary License v1.0).
-
-## 🏆 Why Choose Kitchen Display System Pro?
-
-- **Professional Grade**: Built for serious restaurant operations
-- **Proven Performance**: Used by thousands of restaurants worldwide
-- **Regular Updates**: Continuous improvements and new features
-- **Expert Support**: Professional technical support included
-- **Easy Setup**: Quick installation and configuration
-- **Scalable**: Grows with your business
-
----
-
-## 📧 Contact Information
-
-**Developer:** Azad Karipody Hamza  
-**Company:** Digicyfr Polska  
-**Email:** info@digicyfr.com  
-**Phone:** +48 695 021 633  
-**Website:** https://www.digicyfr.com  
-
-*Transform your kitchen operations today with Kitchen Display System Pro!*
+For implementation enquiries, describe your Odoo version, edition, installed POS modules, number of locations and stations, and the order sources that must be supported.
